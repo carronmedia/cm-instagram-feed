@@ -13,12 +13,9 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
  *
- * @return {Element} Element to render.
+ * @return {null} Dynamic block, so return null.
  */
 export default function save() {
-	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Cm Instagram Feed – hello from the saved content!' }
-		</p>
-	);
+	// Dynamic block - rendered via PHP template
+	return null;
 }

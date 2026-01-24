@@ -4,18 +4,27 @@ return array(
 	'cm-instagram-feed' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'create-block/cm-instagram-feed',
-		'version' => '0.1.0',
-		'title' => 'Cm Instagram Feed',
+		'name' => 'carronmedia/cm-instagram-feed',
+		'version' => '1.0.0',
+		'title' => 'CM Instagram Feed',
 		'category' => 'widgets',
-		'icon' => 'smiley',
-		'description' => 'Example block scaffolded with Create Block tool.',
-		'example' => array(
-			
+		'icon' => 'instagram',
+		'description' => 'Display your Instagram posts in a grid with mobile carousel.',
+		'attributes' => array(
+			'showCaption' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
 		),
 		'supports' => array(
-			'html' => false
+			'html' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'anchor' => true
 		),
+		'render' => 'file:./template.php',
 		'textdomain' => 'cm-instagram-feed',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
