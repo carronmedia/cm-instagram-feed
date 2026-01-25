@@ -1,3 +1,8 @@
+import Swiper from 'swiper';
+import { Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+
 document.addEventListener("DOMContentLoaded", () => {
 	const instagramSwipers = document.querySelectorAll(".cm-swiper-js-instagram");
 
@@ -22,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const nextArrow = slider.querySelector('.cm-swiper-button-next');
 
 		const swiperOptions = {
+			modules: [Navigation, Autoplay],
 			loop: loop,
 			grabCursor: true,
 			freeMode: false,

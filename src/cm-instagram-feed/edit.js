@@ -77,7 +77,7 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 					setPluginActive(false);
 					setError(null);
 				} else {
-					setError(errorMessage || __('Failed to load Instagram posts', 'oliver-james-theme'));
+					setError(errorMessage || __('Failed to load Instagram posts', 'cm-instagram-feed'));
 				}
 				setIsLoading(false);
 				hasLoadedRef.current = true;
@@ -99,17 +99,17 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 	return (
 		<Fragment>
 			<InspectorControls>
-				<PanelBody title={__('Feed Settings', 'oliver-james-theme')} initialOpen={true}>
+				<PanelBody title={__('Feed Settings', 'cm-instagram-feed')} initialOpen={true}>
 					<ToggleControl
-						label={__('Show Captions on Hover', 'oliver-james-theme')}
+						label={__('Show Captions on Hover', 'cm-instagram-feed')}
 						checked={showCaption}
 						onChange={(value) => setAttributes({ showCaption: value })}
 					/>
 					<ToggleControl
-						label={__('Show Preview', 'oliver-james-theme')}
+						label={__('Show Preview', 'cm-instagram-feed')}
 						checked={showPreview}
 						onChange={(value) => setShowPreview(value)}
-						help={__('Show placeholder images to preview the layout', 'oliver-james-theme')}
+						help={__('Show placeholder images to preview the layout', 'cm-instagram-feed')}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -118,10 +118,10 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 				{isLoading && (
 					<Placeholder
 						icon="instagram"
-						label={__('Instagram Feed', 'oliver-james-theme')}
+						label={__('Instagram Feed', 'cm-instagram-feed')}
 					>
 						<Spinner />
-						<p>{__('Loading Instagram posts...', 'oliver-james-theme')}</p>
+						<p>{__('Loading Instagram posts...', 'cm-instagram-feed')}</p>
 					</Placeholder>
 				)}
 
@@ -131,20 +131,20 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 						{isPreviewMode && !connectionStatus?.connected && (
 							<div className="cm-instagram-feed__preview-notice">
 								<Notice status="info" isDismissible={false}>
-									<strong>{__('Preview Mode', 'oliver-james-theme')}</strong>
+									<strong>{__('Preview Mode', 'cm-instagram-feed')}</strong>
 									{' — '}
 									{!pluginActive ? (
 										<>
-											{__('Activate the ', 'oliver-james-theme')}
-											<a href="/wp-admin/plugins.php">{__('Filter Instagram Feed plugin', 'oliver-james-theme')}</a>
-											{__(' and connect your account to show real posts.', 'oliver-james-theme')}
+											{__('Activate the ', 'cm-instagram-feed')}
+											<a href="/wp-admin/plugins.php">{__('Filter Instagram Feed plugin', 'cm-instagram-feed')}</a>
+											{__(' and connect your account to show real posts.', 'cm-instagram-feed')}
 										</>
 									) : (
 										<>
 											<a href="/wp-admin/options-general.php?page=cm-instagram-feed-settings">
-												{__('Connect your Instagram account', 'oliver-james-theme')}
+												{__('Connect your Instagram account', 'cm-instagram-feed')}
 											</a>
-											{__(' to show real posts.', 'oliver-james-theme')}
+											{__(' to show real posts.', 'cm-instagram-feed')}
 										</>
 									)}
 								</Notice>
@@ -156,7 +156,7 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 									<div className="cm-instagram-feed__image-wrapper">
 										<img
 											src={post.media_type === 'VIDEO' ? post.thumbnail_url : post.media_url}
-											alt={post.caption ? post.caption.substring(0, 100) : __('Instagram post', 'oliver-james-theme')}
+											alt={post.caption ? post.caption.substring(0, 100) : __('Instagram post', 'cm-instagram-feed')}
 										/>
 										{post.media_type === 'VIDEO' && (
 											<span className="cm-instagram-feed__video-icon">▶</span>
@@ -180,34 +180,34 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 				{!isLoading && !pluginActive && !showPreview && (
 					<Placeholder
 						icon="instagram"
-						label={__('Instagram Feed', 'oliver-james-theme')}
-						instructions={__('The Filter Instagram Feed plugin is required to display your Instagram posts.', 'oliver-james-theme')}
+						label={__('Instagram Feed', 'cm-instagram-feed')}
+						instructions={__('The Filter Instagram Feed plugin is required to display your Instagram posts.', 'cm-instagram-feed')}
 					>
 						<Notice status="warning" isDismissible={false}>
-							<p><strong>{__('Plugin Not Activated', 'oliver-james-theme')}</strong></p>
-							<p>{__('To use this block, please:', 'oliver-james-theme')}</p>
+							<p><strong>{__('Plugin Not Activated', 'cm-instagram-feed')}</strong></p>
+							<p>{__('To use this block, please:', 'cm-instagram-feed')}</p>
 							<ol style={{ marginLeft: '20px', marginTop: '8px' }}>
 								<li>
-									{__('Go to ', 'oliver-james-theme')}
+									{__('Go to ', 'cm-instagram-feed')}
 									<a href="/wp-admin/plugins.php">
-										{__('Plugins', 'oliver-james-theme')}
+										{__('Plugins', 'cm-instagram-feed')}
 									</a>
-									{__(' and activate the ', 'oliver-james-theme')}
-									<strong>{__('Filter Instagram Feed', 'oliver-james-theme')}</strong>
-									{__(' plugin', 'oliver-james-theme')}
+									{__(' and activate the ', 'cm-instagram-feed')}
+									<strong>{__('Filter Instagram Feed', 'cm-instagram-feed')}</strong>
+									{__(' plugin', 'cm-instagram-feed')}
 								</li>
 								<li>
-									{__('Then go to ', 'oliver-james-theme')}
+									{__('Then go to ', 'cm-instagram-feed')}
 									<a href="/wp-admin/options-general.php?page=cm-instagram-feed-settings">
-										{__('Settings → Instagram Feed', 'oliver-james-theme')}
+										{__('Settings → Instagram Feed', 'cm-instagram-feed')}
 									</a>
-									{__(' to connect your Instagram account', 'oliver-james-theme')}
+									{__(' to connect your Instagram account', 'cm-instagram-feed')}
 								</li>
 							</ol>
 							<p style={{ marginTop: '12px' }}>
-								{__('Or enable ', 'oliver-james-theme')}
-								<strong>{__('Show Preview', 'oliver-james-theme')}</strong>
-								{__(' in the sidebar to see how the block will look.', 'oliver-james-theme')}
+								{__('Or enable ', 'cm-instagram-feed')}
+								<strong>{__('Show Preview', 'cm-instagram-feed')}</strong>
+								{__(' in the sidebar to see how the block will look.', 'cm-instagram-feed')}
 							</p>
 						</Notice>
 					</Placeholder>
@@ -217,25 +217,25 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 				{!isLoading && pluginActive && connectionStatus && !connectionStatus.connected && !showPreview && (
 					<Placeholder
 						icon="instagram"
-						label={__('Instagram Feed', 'oliver-james-theme')}
-						instructions={__('Connect your Instagram account to display your feed.', 'oliver-james-theme')}
+						label={__('Instagram Feed', 'cm-instagram-feed')}
+						instructions={__('Connect your Instagram account to display your feed.', 'cm-instagram-feed')}
 					>
 						<Notice status="warning" isDismissible={false}>
-							<p><strong>{__('Instagram Account Not Connected', 'oliver-james-theme')}</strong></p>
+							<p><strong>{__('Instagram Account Not Connected', 'cm-instagram-feed')}</strong></p>
 							<p>
-								{__('The plugin is active, but you need to connect your Instagram account.', 'oliver-james-theme')}
+								{__('The plugin is active, but you need to connect your Instagram account.', 'cm-instagram-feed')}
 							</p>
 							<p>
-								{__('Go to ', 'oliver-james-theme')}
+								{__('Go to ', 'cm-instagram-feed')}
 								<a href="/wp-admin/options-general.php?page=cm-instagram-feed-settings">
-									{__('Settings → Instagram Feed', 'oliver-james-theme')}
+									{__('Settings → Instagram Feed', 'cm-instagram-feed')}
 								</a>
-								{__(' and follow the instructions to generate and enter your Access Token.', 'oliver-james-theme')}
+								{__(' and follow the instructions to generate and enter your Access Token.', 'cm-instagram-feed')}
 							</p>
 							<p style={{ marginTop: '12px' }}>
-								{__('Or enable ', 'oliver-james-theme')}
-								<strong>{__('Show Preview', 'oliver-james-theme')}</strong>
-								{__(' in the sidebar to see how the block will look.', 'oliver-james-theme')}
+								{__('Or enable ', 'cm-instagram-feed')}
+								<strong>{__('Show Preview', 'cm-instagram-feed')}</strong>
+								{__(' in the sidebar to see how the block will look.', 'cm-instagram-feed')}
 							</p>
 						</Notice>
 						<div style={{ marginTop: '16px' }}>
@@ -243,7 +243,7 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 								variant="primary"
 								href="/wp-admin/options-general.php?page=cm-instagram-feed-settings"
 							>
-								{__('Connect Instagram Account', 'oliver-james-theme')}
+								{__('Connect Instagram Account', 'cm-instagram-feed')}
 							</Button>
 						</div>
 					</Placeholder>
@@ -253,17 +253,17 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 				{!isLoading && pluginActive && error && !showPreview && (
 					<Placeholder
 						icon="instagram"
-						label={__('Instagram Feed', 'oliver-james-theme')}
+						label={__('Instagram Feed', 'cm-instagram-feed')}
 					>
 						<Notice status="error" isDismissible={false}>
-							<p><strong>{__('Error Loading Instagram Feed', 'oliver-james-theme')}</strong></p>
+							<p><strong>{__('Error Loading Instagram Feed', 'cm-instagram-feed')}</strong></p>
 							<p>{error}</p>
 							<p>
-								{__('Check your ', 'oliver-james-theme')}
+								{__('Check your ', 'cm-instagram-feed')}
 								<a href="/wp-admin/options-general.php?page=cm-instagram-feed-settings">
-									{__('Instagram Feed Settings', 'oliver-james-theme')}
+									{__('Instagram Feed Settings', 'cm-instagram-feed')}
 								</a>
-								{__(' to ensure your account is properly connected.', 'oliver-james-theme')}
+								{__(' to ensure your account is properly connected.', 'cm-instagram-feed')}
 							</p>
 						</Notice>
 					</Placeholder>
@@ -273,8 +273,8 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 				{!isLoading && !error && pluginActive && posts.length === 0 && connectionStatus?.connected && !showPreview && (
 					<Placeholder
 						icon="instagram"
-						label={__('Instagram Feed', 'oliver-james-theme')}
-						instructions={__('No Instagram posts found. Make sure your Instagram account has public posts.', 'oliver-james-theme')}
+						label={__('Instagram Feed', 'cm-instagram-feed')}
+						instructions={__('No Instagram posts found. Make sure your Instagram account has public posts.', 'cm-instagram-feed')}
 					/>
 				)}
 			</div>
