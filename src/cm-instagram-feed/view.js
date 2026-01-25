@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		slider.dataset.showArrows = slider.dataset.showArrows || 'false';
 		slider.dataset.spaceBetween = slider.dataset.spaceBetween || '16';
 		slider.dataset.mobileSpaceBetween = slider.dataset.mobileSpaceBetween || '8';
-
+		console.log('Slider Data Attributes:', slider.dataset);
 		const loop = slider.dataset.loop === 'true';
 		const autoplay = slider.dataset.autoPlay === 'true';
 		const showArrows = slider.dataset.showArrows === 'true';

@@ -6,6 +6,7 @@ import {
 import {
 	PanelBody,
 	ToggleControl,
+	__experimentalNumberControl as NumberControl,
 	Placeholder,
 	Spinner,
 	Notice,
@@ -23,9 +24,10 @@ const PLACEHOLDER_POSTS = [
 ];
 
 const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
-	const { showCaption } = attributes;
+	const { showCaption, postCount } = attributes;
 
 	const [posts, setPosts] = useState([]);
+	const [displayPosts, setDisplayPosts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [connectionStatus, setConnectionStatus] = useState(null);
@@ -58,7 +60,7 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 			})
 			.then((response) => {
 				if (response) {
-					setPosts(response.slice(0, 4)); // Always limit to 4
+					setPosts(response.slice(0, postCount)); // Always limit to postCount
 				}
 				setIsLoading(false);
 				hasLoadedRef.current = true;
@@ -82,10 +84,13 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 				setIsLoading(false);
 				hasLoadedRef.current = true;
 			});
-	}, []);
+	}, [postCount]);
 
-	// Use placeholder posts for preview or when showing preview mode
-	const displayPosts = showPreview || (!pluginActive && showPreview) ? PLACEHOLDER_POSTS : posts.slice(0, 4);
+	useEffect(() => {
+		// Use placeholder posts for preview or when showing preview mode
+		setDisplayPosts(showPreview || (!pluginActive && showPreview) ? PLACEHOLDER_POSTS : posts.slice(0, postCount));
+	}, [showPreview, pluginActive, posts, postCount]);
+
 	const isPreviewMode = showPreview || (!isLoading && !pluginActive) || (!isLoading && pluginActive && connectionStatus && !connectionStatus.connected);
 
 	const blockProps = useBlockProps({
@@ -110,6 +115,13 @@ const CMInstagramFeedEdit = ({ attributes, setAttributes }) => {
 						checked={showPreview}
 						onChange={(value) => setShowPreview(value)}
 						help={__('Show placeholder images to preview the layout', 'cm-instagram-feed')}
+					/>
+					<NumberControl
+						label={__('Number of Posts to Display', 'cm-instagram-feed')}
+						value={postCount}
+						onChange={(value) => setAttributes({ postCount: parseInt(value) })}
+						min={1}
+						max={12}
 					/>
 				</PanelBody>
 			</InspectorControls>

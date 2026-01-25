@@ -14,6 +14,10 @@ return array(
 			'showCaption' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'postCount' => array(
+				'type' => 'number',
+				'default' => 4
 			)
 		),
 		'supports' => array(

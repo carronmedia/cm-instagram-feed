@@ -10,8 +10,7 @@
  */
 
 $show_caption = $attributes['showCaption'] ?? false;
-
-$number_of_posts = 4;
+$number_of_posts = $attributes['postCount'] ?? 4;
 
 // Placeholder posts for preview mode
 $placeholder_posts = array(
@@ -79,7 +78,7 @@ if ( $is_connected ) {
 				}
 		}
 
-		// Limit posts to 4
+		// Limit posts to number specified in attributes
 		if ( ! empty( $posts ) ) {
 				$posts = array_slice( $posts, 0, $number_of_posts );
 		}
@@ -120,7 +119,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $wrapper_c
 				data-loop="false"
 				data-auto-play="false"
 				data-show-dots="false"
-				data-show-arrows="false"
+				data-show-arrows="true"
 				data-space-between="16"
 				data-mobile-space-between="8"
 		>

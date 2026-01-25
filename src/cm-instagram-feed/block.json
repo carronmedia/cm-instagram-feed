@@ -11,6 +11,10 @@
 		"showCaption": {
 			"type": "boolean",
 			"default": false
+		},
+		"postCount": {
+			"type": "number",
+			"default": 4
 		}
 	},
 	"supports": {
