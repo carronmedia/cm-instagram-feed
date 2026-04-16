@@ -113,6 +113,42 @@ add_action( 'admin_init', 'cm_instagram_feed_settings_init' );
  * Handle form submissions
  */
 function cm_instagram_feed_handle_form_submission() {
+	// Handle manual cache clear
+	if ( isset( $_POST['cm_instagram_clear_cache'] ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Unauthorized access', 'cm-instagram-feed' ) );
+		}
+
+		check_admin_referer( 'cm_instagram_clear_cache' );
+
+		$access_token = get_option( 'cm_instagram_access_token' );
+
+		if ( ! empty( $access_token ) ) {
+			delete_transient( 'cm_instagram_posts_' . md5( $access_token ) );
+
+			set_transient(
+				'cm_instagram_message',
+				array(
+					'type'    => 'success',
+					'message' => __( 'Instagram feed cache cleared successfully.', 'cm-instagram-feed' ),
+				),
+				60
+			);
+		} else {
+			set_transient(
+				'cm_instagram_message',
+				array(
+					'type'    => 'warning',
+					'message' => __( 'No connected Instagram account found to clear cache for.', 'cm-instagram-feed' ),
+				),
+				60
+			);
+		}
+
+		wp_safe_redirect( admin_url( 'options-general.php?page=cm-instagram-feed-settings' ) );
+		exit;
+	}
+
 	// Handle disconnect
 	if ( isset( $_POST['cm_instagram_disconnect'] ) ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -341,6 +377,13 @@ function cm_instagram_feed_settings_page() {
 					<?php wp_nonce_field( 'cm_instagram_disconnect' ); ?>
 					<button type="submit" name="cm_instagram_disconnect" class="button button-secondary" onclick="return confirm('<?php echo esc_js( __( 'Are you sure you want to disconnect your Instagram account?', 'cm-instagram-feed' ) ); ?>')">
 						<?php esc_html_e( 'Disconnect Account', 'cm-instagram-feed' ); ?>
+					</button>
+				</form>
+
+				<form method="post" style="margin-top: 12px;">
+					<?php wp_nonce_field( 'cm_instagram_clear_cache' ); ?>
+					<button type="submit" name="cm_instagram_clear_cache" class="button button-secondary">
+						<?php esc_html_e( 'Clear Feed Cache', 'cm-instagram-feed' ); ?>
 					</button>
 				</form>
 			</div>
