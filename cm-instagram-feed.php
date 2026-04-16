@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       CM Instagram Feed
  * Description:       Display Instagram posts in a beautiful grid with optional mobile carousel. Connect via Access Token.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Ian Harris

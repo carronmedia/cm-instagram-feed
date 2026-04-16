@@ -32,8 +32,8 @@ try {
   console.log('✓ Updating cm-instagram-feed.php header');
   let pluginContent = fs.readFileSync(pluginFilePath, 'utf8');
   pluginContent = pluginContent.replace(
-    /\* Version: [0-9.]+/,
-    `* Version: ${cleanVersion}`
+    /\* Version:           [0-9.]+/,
+    `* Version:           ${cleanVersion}`
   );
   fs.writeFileSync(pluginFilePath, pluginContent);
 
