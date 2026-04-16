@@ -435,6 +435,34 @@ function cm_instagram_feed_get_status() {
 }
 
 /**
+ * Ensure Instagram posts are ordered newest first by timestamp.
+ *
+ * @param array $posts Instagram posts array.
+ * @return array
+ */
+function cm_instagram_feed_sort_posts_newest_first( $posts ) {
+	if ( ! is_array( $posts ) || count( $posts ) < 2 ) {
+		return is_array( $posts ) ? $posts : array();
+	}
+
+	usort(
+		$posts,
+		function ( $a, $b ) {
+			$a_time = isset( $a['timestamp'] ) ? strtotime( $a['timestamp'] ) : 0;
+			$b_time = isset( $b['timestamp'] ) ? strtotime( $b['timestamp'] ) : 0;
+
+			if ( $a_time === $b_time ) {
+				return 0;
+			}
+
+			return ( $a_time > $b_time ) ? -1 : 1;
+		}
+	);
+
+	return $posts;
+}
+
+/**
  * Fetch Instagram posts from API
  */
 function cm_instagram_feed_get_posts( $request ) {
@@ -453,6 +481,7 @@ function cm_instagram_feed_get_posts( $request ) {
 	$cached_posts = get_transient( $cache_key );
 	
 	if ( false !== $cached_posts ) {
+		$cached_posts = cm_instagram_feed_sort_posts_newest_first( $cached_posts );
 		return rest_ensure_response( $cached_posts );
 	}
 	
@@ -502,7 +531,7 @@ function cm_instagram_feed_get_posts( $request ) {
 		);
 	}
 	
-	$posts = array_reverse( $data['data'] );
+	$posts = cm_instagram_feed_sort_posts_newest_first( $data['data'] );
 	
 	// Cache for 1 hour
 	set_transient( $cache_key, $posts, HOUR_IN_SECONDS );

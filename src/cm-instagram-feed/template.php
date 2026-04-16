@@ -72,11 +72,13 @@ if ( $is_connected ) {
 						$data = json_decode( $body, true );
 
 						if ( isset( $data['data'] ) ) {
-								$posts = array_reverse( $data['data'] );
+							$posts = cm_instagram_feed_sort_posts_newest_first( $data['data'] );
 								set_transient( $cache_key, $posts, HOUR_IN_SECONDS );
 						}
 				}
 		}
+
+				$posts = cm_instagram_feed_sort_posts_newest_first( $posts );
 
 		// Limit posts to number specified in attributes
 		if ( ! empty( $posts ) ) {
