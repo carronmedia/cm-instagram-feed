@@ -40,13 +40,12 @@ jobs:
 
       - name: Create plugin zip file
         run: |
-          mkdir -p build/cm-instagram-feed
+          mkdir -p release/cm-instagram-feed
           
           # Copy plugin files, excluding unwanted directories
           rsync -avz \
             --exclude '.git' \
             --exclude '.github' \
-            --exclude 'build' \
             --exclude 'node_modules' \
             --exclude '.gitignore' \
             --exclude '*.md' \
@@ -54,16 +53,16 @@ jobs:
             --exclude '.DS_Store' \
             --exclude '.vscode' \
             --exclude 'package-lock.json' \
-            . build/cm-instagram-feed/
+            . release/cm-instagram-feed/
           
           # Create zip with proper folder structure
-          cd build && zip -r cm-instagram-feed-${{ steps.version.outputs.version }}.zip cm-instagram-feed/
+          cd release && zip -r cm-instagram-feed-${{ steps.version.outputs.version }}.zip cm-instagram-feed/
           cd ..
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/cm-instagram-feed-${{ steps.version.outputs.version }}.zip
+          files: release/cm-instagram-feed-${{ steps.version.outputs.version }}.zip
           draft: false
           prerelease: false
           generate_release_notes: true
