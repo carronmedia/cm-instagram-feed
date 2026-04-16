@@ -20,6 +20,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'CM_INSTAGRAM_FEED_VERSION', '1.0.0' );
 define( 'CM_INSTAGRAM_FEED_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CM_INSTAGRAM_FEED_URL', plugin_dir_url( __FILE__ ) );
+define( 'CM_INSTAGRAM_FEED_PLUGIN_SLUG', 'cm-instagram-feed' );
+define( 'CM_INSTAGRAM_FEED_GITHUB_URL', 'https://github.com/carronmedia/cm-instagram-feed/' );
+
+require_once CM_INSTAGRAM_FEED_PATH . 'includes/plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+// Setup GitHub updater
+if (!defined('LHB_GITHUB_TOKEN') || !LHB_GITHUB_TOKEN) {
+	error_log('[CM Instagram Feed] Warning: LHB_GITHUB_TOKEN is not defined. Automatic updates from GitHub will not work.');
+} else {
+	$cmif_update_checker = PucFactory::buildUpdateChecker(
+			CM_INSTAGRAM_FEED_GITHUB_URL,
+			__FILE__,
+			CM_INSTAGRAM_FEED_PLUGIN_SLUG
+	);
+
+	//Set the branch that contains the stable release.
+	$cmif_update_checker->setBranch('main');
+
+	$cmif_update_checker->setAuthentication(LHB_GITHUB_TOKEN);
+}
 
 /**
  * Registers the block using a `blocks-manifest.php` file, which improves the performance of block type registration.

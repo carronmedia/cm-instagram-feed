@@ -1,0 +1,72 @@
+name: Create Plugin Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$GITHUB_REF#refs/tags/" >> $GITHUB_OUTPUT
+
+      - name: Update package.json version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Update version in package.json
+        run: |
+          if [ "$(jq -r .version package.json)" != "${{ steps.version.outputs.version }}" ]; then
+            npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+          fi
+
+      - name: Update version in plugin header
+        run: |
+          sed -i "s/\* Version: [0-9.]*$/\* Version: ${{ steps.version.outputs.version }}/" cm-instagram-feed.php
+
+      - name: Create plugin zip file
+        run: |
+          mkdir -p build/cm-instagram-feed
+          
+          # Copy plugin files, excluding unwanted directories
+          rsync -avz \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'build' \
+            --exclude 'node_modules' \
+            --exclude '.gitignore' \
+            --exclude '*.md' \
+            --exclude 'scripts' \
+            --exclude '.DS_Store' \
+            --exclude '.vscode' \
+            --exclude 'package-lock.json' \
+            . build/cm-instagram-feed/
+          
+          # Create zip with proper folder structure
+          cd build && zip -r cm-instagram-feed-${{ steps.version.outputs.version }}.zip cm-instagram-feed/
+          cd ..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/cm-instagram-feed-${{ steps.version.outputs.version }}.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: "Plugin release version ${{ steps.version.outputs.version }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
